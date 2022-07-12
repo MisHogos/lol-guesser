@@ -1,8 +1,25 @@
+@media (prefers-color-scheme: dark) {
+  html {
+    --bg-base-color: #202124;
+    --font-base-color: #fff;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  html {
+    --bg-base-color: #fff;
+    --font-base-color: #202124;
+  }
+}
+
 html,
 body {
   width: 100%;
   height: 100%;
   margin: 0;
+  background-color: var(--bg-base-color);
+  color: var(--font-base-color);
+  font-family: "Rubik", sans-serif;
 }
 
 *,
