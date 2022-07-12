@@ -7,14 +7,18 @@ namespace lolguesser.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private DataDragonModel _apiModel;
 
     public HomeController(ILogger<HomeController> logger)
     {
+        _apiModel = new DataDragonModel();
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        string randomAbility = await _apiModel.getChampionSpell();
+        Console.WriteLine(randomAbility);
         return View();
     }
 

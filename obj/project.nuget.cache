@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "DGQzSLayeh7wGrSnYzlg8GSVcKxV3dgU0IKI/JJZjY/G3Jopko9O8ecac62tdifj7j9jvwOWROvHfPzBVGeGEg==",
+  "dgSpecHash": "OnQ28boowFBp1PwpUMh0MGX4tcHQrV3pKuJoIZPvTcGJW0DuaOnW0fm1wvZq7s0L6k0S/B+qeTxH5Ps9PQZURA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Alex\\Documents\\windows-projects\\lol-guesser\\lolguesser.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/pelayo/github/lolguesser/lolguesser.csproj",
+  "expectedPackageFiles": [
+    "/home/pelayo/.nuget/packages/newtonsoft.json/12.0.3/newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
