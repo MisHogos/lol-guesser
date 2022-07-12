@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "oaNXE+2XdS7As7VXnwt3EzWg/2jkVFyMA4/mtYqGFqryM8jl/64p2n8UEiD4jQc7fwXT3WYQORDBgmUwlUfleg==",
+  "dgSpecHash": "DGQzSLayeh7wGrSnYzlg8GSVcKxV3dgU0IKI/JJZjY/G3Jopko9O8ecac62tdifj7j9jvwOWROvHfPzBVGeGEg==",
   "success": true,
-  "projectFilePath": "/home/pelayo/github/lolguesser/lolguesser.csproj",
+  "projectFilePath": "C:\\Users\\Alex\\Documents\\windows-projects\\lol-guesser\\lolguesser.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

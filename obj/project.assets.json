@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "/home/pelayo/.nuget/packages/": {}
+    "C:\\Users\\Alex\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/pelayo/github/lolguesser/lolguesser.csproj",
+      "projectUniqueName": "C:\\Users\\Alex\\Documents\\windows-projects\\lol-guesser\\lolguesser.csproj",
       "projectName": "lolguesser",
-      "projectPath": "/home/pelayo/github/lolguesser/lolguesser.csproj",
-      "packagesPath": "/home/pelayo/.nuget/packages/",
-      "outputPath": "/home/pelayo/github/lolguesser/obj/",
+      "projectPath": "C:\\Users\\Alex\\Documents\\windows-projects\\lol-guesser\\lolguesser.csproj",
+      "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Alex\\Documents\\windows-projects\\lol-guesser\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/pelayo/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -61,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.302/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
