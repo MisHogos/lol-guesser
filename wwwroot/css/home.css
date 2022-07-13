@@ -1,0 +1,103 @@
+.screen-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  font-family: "Beatufort";
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.screen-container.pvp {
+  background-image: url("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/content/src/leagueclient/gamemodeassets/classic_sru/img/parties-background.jpg");
+}
+
+.screen-container.solo {
+  background-image: url("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/content/src/leagueclient/gamemodeassets/aram/img/parties-background.jpg");
+}
+
+.button-container {
+  margin-bottom: 2rem;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.button.blocked {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.button {
+  background-image: url("https://raw.communitydragon.org/8.3/plugins/rcp-fe-lol-patcher/global/default/8ae97cd8910d5bc01f2a7d0761165376.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  font-family: "Beatufort";
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #a2c5c5;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 182px;
+  height: 72px;
+}
+
+.button:not(.blocked):hover {
+  background-image: url("https://raw.communitydragon.org/8.3/plugins/rcp-fe-lol-patcher/global/default/5f2af3f476fdd4a3d26cd46a305aaabe.png");
+  color: white;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  gap: 10rem;
+}
+
+.icon-container {
+  height: 150px;
+  width: 150px;
+  cursor: pointer;
+}
+
+.icon-container div {
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+}
+
+.mode-title {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.aram-icon {
+  background-image: url("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/content/src/leagueclient/gamemodeassets/aram/img/game-select-icon-default.png");
+}
+
+.aram-icon.selected {
+  background-image: url("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/content/src/leagueclient/gamemodeassets/aram/img/game-select-icon-active.png");
+}
+
+.aram-icon:not(.selected):hover {
+  background-image: url("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/content/src/leagueclient/gamemodeassets/aram/img/game-select-icon-hover.png");
+}
+
+.sr-icon {
+  background-image: url("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/content/src/leagueclient/gamemodeassets/classic_sru/img/game-select-icon-default.png");
+}
+
+.sr-icon.selected {
+  background-image: url("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/content/src/leagueclient/gamemodeassets/classic_sru/img/game-select-icon-active.png");
+}
+
+.sr-icon:not(.selected):hover {
+  background-image: url("https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/content/src/leagueclient/gamemodeassets/classic_sru/img/game-select-icon-hover.png");
+}

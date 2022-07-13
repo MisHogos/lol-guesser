@@ -27,3 +27,9 @@ body {
 *:after {
   box-sizing: border-box;
 }
+
+@font-face {
+  font-family: "Beatufort";
+  src: url("https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-typekit/global/default/fonts/beaufort/beaufortforlol-regular.otf")
+    format("opentype");
+}

@@ -1,81 +1,25 @@
 ﻿@{
-    ViewData["Title"] = "Play";
+    ViewData["Title"] = "Home";
 
     ViewData["Scripts"] = new List<string>();
-    ((List<string>)ViewData["Scripts"]).Add("/js/game.js");
+    ((List<string>)ViewData["Scripts"]).Add("/js/home.js");
 
     ViewData["Styles"] = new List<string>();
-    ((List<string>)ViewData["Styles"]).Add("/css/game.css");
+    ((List<string>)ViewData["Styles"]).Add("/css/home.css");
 }
 
-<div style='display: flex; justify-content: center; flex-direction: column;'>
-    <div
-        style='border-bottom: 1px solid var(--font-base-color); margin-top: 1rem; display: flex; gap: 3rem; align-items: center; justify-content: center;'>
-        <div style='font-size: 2rem;'>LoL Guesser</div>
-        <div id="change-theme" class='light' style='font-size: 1rem; cursor: pointer;'>
-            <i class="fa-solid fa-sun"></i>
+<div class="screen-container pvp">
+    <div class="menu-container">
+        <div data-mode="pvp" class='icon-container'>
+            <div class='icon sr-icon'></div>
+            <h1 class="mode-title">PVP</h1>
+        </div>
+        <div data-mode="solo" class='icon-container'>
+            <div class='icon aram-icon'></div>
+            <h1 class="mode-title">Play alone</h1>
         </div>
     </div>
-    <div style='display: flex; margin: 20px'>
-        <div id="champ-list-container" style='width: 70%;'>
-            <div style='margin: 10px 0; display: flex; justify-content: flex-end;'>
-                <input id="champ-search" />
-            </div>
-            <div id="champ-list" style='display: grid; grid-template-columns: repeat(auto-fit, 75px); gap: 10px;'></div>
-        </div>
-        <div id="players-container" style='width: 30%'></div>
+    <div class="button-container">
+        <div class="button blocked">Play</div>
     </div>
 </div>
-<script>
-    window.champions = [
-        @foreach(var champion in (List<Champion>)ViewData["champions"]){
-            @($"{{ id: `{champion.id}`, name: `{champion.name}`, img: `{champion.getImage()}` }},")
-        }
-    ]
-</script>
-<script>
-    document.getElementById('change-theme').addEventListener('click', (e) => {
-        const isLight = [...e.currentTarget.classList].includes('light');
-        toggleTheme(isLight ? 'dark' : 'light');
-    });
-
-    function setUserMode() {
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            toggleTheme('dark');
-        }
-        else {
-            toggleTheme('light');
-        }
-    }
-
-    function toggleTheme(changeTo = 'light') {
-        const button = document.getElementById('change-theme');
-        const buttonIcon = document.querySelector('#change-theme i');
-
-        let bgColor = '#fff';
-        let fontColor = '#202124'
-
-        if (changeTo === 'dark') {
-            bgColor = '#202124';
-            fontColor = '#fff';
-
-            button.classList.add('dark');
-            button.classList.remove('light');
-
-            buttonIcon.classList.remove('fa-sun');
-            buttonIcon.classList.add('fa-moon');
-        }
-        else {
-            button.classList.remove('dark');
-            button.classList.add('light');
-
-            buttonIcon.classList.add('fa-sun');
-            buttonIcon.classList.remove('fa-moon');
-        }
-
-        document.documentElement.style.setProperty('--bg-base-color', bgColor);
-        document.documentElement.style.setProperty('--font-base-color', fontColor);
-    }
-
-    setUserMode();
-</script>
