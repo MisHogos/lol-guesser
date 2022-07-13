@@ -1,26 +1,38 @@
 ﻿@{
     ViewData["Title"] = "Play";
+
+    ViewData["Scripts"] = new List<string>();
+    ((List<string>)ViewData["Scripts"]).Add("/js/game.js");
+
+    ViewData["Styles"] = new List<string>();
+    ((List<string>)ViewData["Styles"]).Add("/css/game.css");
 }
 
-<div style='display: flex; justify-content: center;'>
+<div style='display: flex; justify-content: center; flex-direction: column;'>
     <div
-        style='border-bottom: 1px solid var(--font-base-color); margin-top: 1rem; display: flex; gap: 3rem; align-items: center;'>
+        style='border-bottom: 1px solid var(--font-base-color); margin-top: 1rem; display: flex; gap: 3rem; align-items: center; justify-content: center;'>
         <div style='font-size: 2rem;'>LoL Guesser</div>
         <div id="change-theme" class='light' style='font-size: 1rem; cursor: pointer;'>
             <i class="fa-solid fa-sun"></i>
         </div>
-        <div>
-            <a href="@Url.Action("GameOver","Home")">Click me bro</a>
-        </div>
     </div>
-    <div>
-        @foreach (var img in (List<string>)ViewData["championsImg"])
-        {
-            <Img src=@img>
-        }
-
+    <div style='display: flex; margin: 20px'>
+        <div id="champ-list-container" style='width: 70%;'>
+            <div style='margin: 10px 0; display: flex; justify-content: flex-end;'>
+                <input id="champ-search" />
+            </div>
+            <div id="champ-list" style='display: flex; flex-wrap: wrap; gap: 5px; justify-content: space-between;'></div>
+        </div>
+        <div id="players-container" style='width: 30%'></div>
     </div>
 </div>
+<script>
+    window.champions = [
+        @foreach(var champion in (List<Champion>)ViewData["champions"]){
+            @($"{{ id: `{champion.id}`, name: `{champion.name}`, img: `{champion.getImage()}` }},")
+        }
+    ]
+</script>
 <script>
     document.getElementById('change-theme').addEventListener('click', (e) => {
         const isLight = [...e.currentTarget.classList].includes('light');

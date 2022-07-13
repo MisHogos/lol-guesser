@@ -19,10 +19,9 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-
         string randomAbility = await _apiModel.getChampionSpell();
-        List<string> imgs = await _apiModel.getChampionsImg();
-        ViewData["championsImg"] = imgs;
+        List<Champion> champions = await _apiModel.getChampions();
+        ViewData["champions"] = champions;
         return View();
     }
 

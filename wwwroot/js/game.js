@@ -1,0 +1,43 @@
+(function () {
+  updateChampionList();
+  document.getElementById("champ-search").addEventListener("input", (evt) => {
+    updateChampionList(evt.target.value);
+  });
+})();
+
+function updateChampionList(search) {
+  const championList = document.getElementById("champ-list");
+  const toAddChamps = !!search
+    ? window.champions.filter((champion) =>
+        champion.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : window.champions;
+
+  const imgs = toAddChamps.map(
+    (champ) =>
+      `<div data-id='${champ.id}' ${window.selectedChampion === champ.id ? "class='selected'" : ""}>
+        <img 
+          onClick='setSelectedChampion(\`${champ.id}\`)' 
+          title="${champ.name}" 
+          width='75px' 
+          height='75px' 
+          style='cursor: pointer;' 
+          src="${champ.img}" 
+        />
+      </div>`
+  );
+  championList.innerHTML = imgs.join("");
+}
+
+function setSelectedChampion(championId) {
+  if (window.selectedChampion) {
+    const currentSelectedChampion = document.querySelector(
+      `*[data-id='${window.selectedChampion}']`
+    );
+    currentSelectedChampion.classList.remove("selected");
+  }
+
+  window.selectedChampion = championId;
+  const currentSelectedChampion = document.querySelector(`*[data-id='${championId}']`);
+  currentSelectedChampion.classList.add("selected");
+}

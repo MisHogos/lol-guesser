@@ -26,4 +26,8 @@ public class Champion
     public string? blurb { get; set; }
     public string[]? tags { get; set; }
     public string? partype { get; set; }
+
+    public string getImage(){
+        return $"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{this.key}.png";
+    }
 }

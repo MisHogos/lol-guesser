@@ -1,0 +1,21 @@
+.selected {
+  position: relative;
+}
+
+.selected:after {
+  content: "\f00c";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: yellow;
+  display: flex;
+  font-size: 4rem;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  opacity: 0.75;
+  left: 0;
+  top: 0;
+}

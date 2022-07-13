@@ -69,19 +69,8 @@ public class DataDragonModel
         }
     }
 
-
-    public async Task<List<string>> getChampionsImg()
-    {
-        string version = await getLatestVersion();
+    public async Task<List<Champion>> getChampions(){
         ChampionResponse champs = await getChamps();
-        List<string> images = new List<string>();
-        foreach (Champion c in champs.data.Values)
-        {
-            images.Add($"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{c.key}.png");
-        }
-
-        Console.WriteLine(images);
-
-        return images;
+        return champs.data.Values.ToList<Champion>();
     }
 }

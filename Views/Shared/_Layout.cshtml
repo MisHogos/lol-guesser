@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
     <script src="https://kit.fontawesome.com/26a1bdd57c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="~/css/base.css" asp-append-version="true" />
+    @foreach(var script in (List<string>)ViewData["Scripts"]){
+        <script src="@script" defer></script>    
+    }
+
+    @foreach(var style in (List<string>)ViewData["Styles"]){
+        <link rel="stylesheet" href="@style" asp-append-version="true" />
+    }
 </head>
 <body>
     <div class="container">
