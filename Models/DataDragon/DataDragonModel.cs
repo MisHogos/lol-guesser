@@ -17,37 +17,42 @@ public class DataDragonModel
 
         return responseBody[0].ToString();
     }
-    private async Task<string> getChamps()
+
+    //Obtener todos los campeones y devolver el id de uno aleatorio
+    private async Task<ChampionResponse> getChamps()
     {
         string version = await getLatestVersion();
         HttpResponseMessage response = await client.GetAsync($"https://ddragon.leagueoflegends.com/cdn/{version}/data/es_ES/champion.json");
         response.EnsureSuccessStatusCode();
-        var responseBody = await response.Content.ReadFromJsonAsync<ChampionResponse>();
-
-        var responseString = await response.Content.ReadAsStringAsync();
-
-        Random random = new Random();
-        int index = random.Next(responseBody.data.Count);
-
-        string randomKey = responseBody.data.Keys.ElementAt(index);
-        Champion randomChampion = responseBody.data[randomKey];
-        return randomChampion.id;
+        return await response.Content.ReadFromJsonAsync<ChampionResponse>();
     }
 
+    private async Task<Champion> getRandomChamp()
+    {
+        ChampionResponse champs = await getChamps();
+        Random random = new Random();
+        int index = random.Next(champs.data.Count);
+        string randomKey = champs.data.Keys.ElementAt(index);
+        Champion randomChampion = champs.data[randomKey];
+        return randomChampion;
+    }
+
+
+    //Teniendo el id de un personaje aleatorio, devolver el nombre de una habilidad o su pasiva aleatoria
     public async Task<string> getChampionSpell()
     {
         try
         {
             string version = await getLatestVersion();
-            string championId = await getChamps();
+            Champion randomChamp = await getRandomChamp();
 
-            HttpResponseMessage response = await client.GetAsync($"https://ddragon.leagueoflegends.com/cdn/{version}/data/es_ES/champion/{championId}.json");
+            HttpResponseMessage response = await client.GetAsync($"https://ddragon.leagueoflegends.com/cdn/{version}/data/es_ES/champion/{randomChamp.id}.json");
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadFromJsonAsync<ChampionExtended>();
 
             var posibleValues = new List<string>();
-            posibleValues.Add(responseBody.data[championId].passive.name);
-            foreach (var spell in responseBody.data[championId].spells)
+            posibleValues.Add(responseBody.data[randomChamp.id].passive.name);
+            foreach (var spell in responseBody.data[randomChamp.id].spells)
             {
                 posibleValues.Add(spell.name);
             }
@@ -62,5 +67,21 @@ public class DataDragonModel
             Console.WriteLine("Message :{0} ", e.Message);
             return "";
         }
+    }
+
+
+    public async Task<List<string>> getChampionsImg()
+    {
+        string version = await getLatestVersion();
+        ChampionResponse champs = await getChamps();
+        List<string> images = new List<string>();
+        foreach (Champion c in champs.data.Values)
+        {
+            images.Add($"https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{c.key}.png");
+        }
+
+        Console.WriteLine(images);
+
+        return images;
     }
 }

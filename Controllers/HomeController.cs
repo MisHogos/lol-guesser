@@ -9,6 +9,8 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private DataDragonModel _apiModel;
 
+
+
     public HomeController(ILogger<HomeController> logger)
     {
         _apiModel = new DataDragonModel();
@@ -17,8 +19,10 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
+
         string randomAbility = await _apiModel.getChampionSpell();
-        Console.WriteLine(randomAbility);
+        List<string> imgs = await _apiModel.getChampionsImg();
+        ViewData["championsImg"] = imgs;
         return View();
     }
 
