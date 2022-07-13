@@ -7,8 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var multiplexer = ConnectionMultiplexer.Connect("localhost");
-builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
+//var multiplexer = ConnectionMultiplexer.Connect("localhost");
+//builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
 
 
 var app = builder.Build();
