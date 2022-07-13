@@ -2,6 +2,17 @@
   position: relative;
 }
 
+.champ-img-container {
+  width: 75px;
+  height: 75px;
+}
+
+.champ-img {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
 .selected:after {
   content: "\f00c";
   font-family: "Font Awesome 6 Free";

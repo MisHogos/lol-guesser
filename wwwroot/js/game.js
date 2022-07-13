@@ -15,13 +15,13 @@ function updateChampionList(search) {
 
   const imgs = toAddChamps.map(
     (champ) =>
-      `<div data-id='${champ.id}' ${window.selectedChampion === champ.id ? "class='selected'" : ""}>
+      `<div data-id='${champ.id}' class='champ-img-container ${
+        window.selectedChampion === champ.id ? "selected" : ""
+      }'>
         <img 
           onClick='setSelectedChampion(\`${champ.id}\`)' 
-          title="${champ.name}" 
-          width='75px' 
-          height='75px' 
-          style='cursor: pointer;' 
+          title="${champ.name}"
+          class='champ-img'
           src="${champ.img}" 
         />
       </div>`
