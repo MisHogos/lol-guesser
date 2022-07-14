@@ -3,10 +3,28 @@
     container.addEventListener("click", (evt) => handleClick(evt));
   });
 
-  document.querySelector(".button").addEventListener("click", (evt) => {
+  let clicks = 0;
+  let started = false;
+
+  document.querySelector(".button").addEventListener("click", async (evt) => {
     if (evt.currentTarget.classList.contains("blocked")) return;
     console.log("Selected mode: " + window.selectedMode);
-    window.location.href = "/game";
+
+    if (!started) {
+      started = true;
+      await window.connection.start();
+    }
+    await window.connection.invoke(
+      clicks % 2 === 0 ? "Marco" : "Ping",
+      "user",
+      clicks % 2 === 0 ? "Marco" : "Ping"
+    );
+    clicks++;
+  });
+
+  window.connection = new signalR.HubConnectionBuilder().withUrl("/ws/game").build();
+  window.connection.on("ReceiveMessage", (msg) => {
+    alert(msg);
   });
 })();
 

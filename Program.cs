@@ -1,11 +1,12 @@
 using StackExchange.Redis;
-
+using lolguesser.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
 
 //var multiplexer = ConnectionMultiplexer.Connect("localhost");
 //builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
@@ -31,5 +32,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapHub<GameHub>("/ws/game");
 
 app.Run();
