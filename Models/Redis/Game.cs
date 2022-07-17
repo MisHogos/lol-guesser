@@ -20,10 +20,9 @@ public class Game
 
     private IClientProxy _wsLobby { get; set; }
 
-
-    public Game(int totalRounds, IClientProxy wsLobby)
+    public Game(int totalRounds, IClientProxy wsLobby, string lobbyId)
     {
-        this.lobbyId = Guid.NewGuid().ToString();
+        this.lobbyId = lobbyId;
         this.actualRound = 1;
         this.totalRounds = totalRounds;
         this.createdAt = DateTime.Now.TimeOfDay;
@@ -56,41 +55,5 @@ public class Game
         }
         return false;
     }
-
-}
-
-public class Round
-{
-    public int roundNumber { get; set; }
-    public List<string> tips { get; set; }
-
-    public string[] result { get; set; }
-
-    private IClientProxy _wsLobby;
-
-    private DataDragonModel _apiModel;
-    public Round(int roundNumber, IClientProxy wsLobby)
-    {
-        this.roundNumber = roundNumber;
-        _apiModel = new DataDragonModel();
-        this._wsLobby = wsLobby;
-    }
-
-    public async Task<bool> startRound()
-    {
-        this.result = await _apiModel.getChampionSpell();
-        await _wsLobby.SendAsync("ReceiveMessage", this.result[0]);
-        Thread.Sleep(30 * 1000);
-        char letterTip = this.result[1][this.result[1].Length - 1];
-        await _wsLobby.SendAsync("ReceiveMessage", letterTip);
-        Thread.Sleep(30 * 1000);
-
-        return true;
-    }
-}
-
-public class Player
-{
-    public string playerId { get; set; }
 
 }

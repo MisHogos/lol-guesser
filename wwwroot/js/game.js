@@ -16,7 +16,7 @@ function updateChampionList(search) {
   const imgs = toAddChamps.map(
     (champ) =>
       `<div data-id='${champ.id}' class='champ-img-container ${
-        window.selectedChampion === champ.id ? "selected" : ""
+        window.selectedChampion === champ.id ? "selected-champ" : ""
       }'>
         <img 
           onClick='setSelectedChampion(\`${champ.id}\`)' 
@@ -34,10 +34,10 @@ function setSelectedChampion(championId) {
     const currentSelectedChampion = document.querySelector(
       `*[data-id='${window.selectedChampion}']`
     );
-    currentSelectedChampion.classList.remove("selected");
+    currentSelectedChampion.classList.remove("selected-champ");
   }
 
   window.selectedChampion = championId;
   const currentSelectedChampion = document.querySelector(`*[data-id='${championId}']`);
-  currentSelectedChampion.classList.add("selected");
+  currentSelectedChampion.classList.add("selected-champ");
 }

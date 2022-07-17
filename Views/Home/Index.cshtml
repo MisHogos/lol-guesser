@@ -2,24 +2,78 @@
     ViewData["Title"] = "Home";
 
     ViewData["Scripts"] = new List<string>();
+    ((List<string>)ViewData["Scripts"]).Add("/js/wsHandler.js");
     ((List<string>)ViewData["Scripts"]).Add("/js/home.js");
+    ((List<string>)ViewData["Scripts"]).Add("/js/game.js");
 
     ViewData["Styles"] = new List<string>();
     ((List<string>)ViewData["Styles"]).Add("/css/home.css");
+    ((List<string>)ViewData["Styles"]).Add("/css/game.css");
 }
 
-<div class="screen-container pvp">
-    <div class="menu-container">
-        <div data-mode="pvp" class='icon-container'>
-            <div class='icon sr-icon'></div>
-            <h1 class="mode-title">PVP</h1>
+<script>
+    window.champions = [
+        @foreach(var champion in (List<Champion>)ViewData["champions"]){
+            @($"{{ id: `{champion.id}`, name: `{champion.name}`, img: `{champion.getImage()}` }},")
+        }
+    ]
+</script>
+
+<div>
+    <div id="select-gamemode-screen" class="screen-container pvp">
+        <div class="menu-container">
+            <div data-mode="pvp" class='icon-container'>
+                <div class='icon sr-icon'></div>
+                <h1 class="mode-title">PVP</h1>
+            </div>
+            <div data-mode="solo" class='icon-container'>
+                <div class='icon aram-icon'></div>
+                <h1 class="mode-title">Play alone</h1>
+            </div>
         </div>
-        <div data-mode="solo" class='icon-container'>
-            <div class='icon aram-icon'></div>
-            <h1 class="mode-title">Play alone</h1>
+        <div class="button-container">
+            <div class="button blocked">Play</div>
         </div>
     </div>
-    <div class="button-container">
-        <div class="button blocked">Play</div>
+    <div id="countdown-page" style="display: none; justify-content: center; align-items: center; height: 100vh;">
+        <h1 style='font-size: 10rem;' id="countdown"></h1>
     </div>
+    
+    <div id="game" style='display: none; justify-content: center; flex-direction: column;'>
+        <div
+            style='border-bottom: 1px solid var(--font-base-color); margin-top: 1rem; display: flex; gap: 3rem; align-items: center; justify-content: center;'>
+            <div style='font-size: 2rem;'>LoL Guesser</div>
+            <div id="change-theme" class='light' style='font-size: 1rem; cursor: pointer;'>
+                <i class="fa-solid fa-sun"></i>
+            </div>
+        </div>
+        <div style='display: flex; margin: 20px'>
+            <div id="champ-list-container" style='width: 70%;'>
+                <div style='margin: 10px 0; display: flex; justify-content: flex-end;'>
+                    <input id="champ-search" />
+                </div>
+                <div id="champ-list" style='display: grid; grid-template-columns: repeat(auto-fit, 75px); gap: 10px;'></div>
+            </div>
+            <div id="players-container" style='width: 30%; padding: 30px;'>
+                <div>
+                    <h3>Remaining time</h3>
+                    <p id="remaining-time">60</p>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; flex-direction: column; gap: 5px;">
+                    <h3 style='margin-bottom: 0;'>Nombre de hechizo</h3>
+                    <p id='spell-name'></p>
+                </div>
+                <div id="spell-type-container" style="display: none; flex-wrap: wrap; flex-direction: column; gap: 5px;">
+                    <h3 style='margin-bottom: 0;'>Tipo de hechizo</h3>
+                    <p id='spell-type'></p>
+                </div>
+                <div id="spell-icon-container" style="display: none; flex-wrap: wrap; flex-direction: column; gap: 5px;">
+                    <h3 style='margin-bottom: 0;'>Icono del hechizo</h3>
+                    <img width="45px" height="45px" id='spell-icon'></img>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>

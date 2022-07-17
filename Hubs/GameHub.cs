@@ -12,14 +12,21 @@ namespace lolguesser.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, group);
         }
 
+        public async Task CreateLobby(){
+            var newLobbyId = Guid.NewGuid().ToString();
+
+            await JoinLobby(newLobbyId);
+            await Clients.Caller.SendAsync("LobbyId", newLobbyId);
+        }
+
         //Start game
-        public async Task StartGame(string group)
+        public void StartGame(string group)
         {
 
             var lobby = Clients.Group(group);
 
             //Cramos un hilo
-            ThreadClass thread = new ThreadClass(lobby);
+            ThreadClass thread = new ThreadClass(lobby, group);
 
             Thread InstanceCaller = new Thread(new ThreadStart(thread.InstanceMethod));
             InstanceCaller.Start();

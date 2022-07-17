@@ -1,4 +1,4 @@
-.selected {
+.selected-champ {
   position: relative;
 }
 
@@ -13,7 +13,7 @@
   cursor: pointer;
 }
 
-.selected:after {
+.selected-champ:after {
   content: "\f00c";
   font-family: "Font Awesome 6 Free";
   font-weight: 900;

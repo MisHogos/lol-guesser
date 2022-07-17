@@ -3,24 +3,23 @@
     container.addEventListener("click", (evt) => handleClick(evt));
   });
 
-  let clicks = 0;
   let started = false;
 
   document.querySelector(".button").addEventListener("click", async (evt) => {
     if (evt.currentTarget.classList.contains("blocked")) return;
-    console.log("Selected mode: " + window.selectedMode);
 
     if (!started) {
       started = true;
       await window.connection.start();
+      await window.connection.invoke("CreateLobby");
+      if (window.selectedMode === "solo") {
+        console.log("Assigned to lobby " + window.lobbyId);
+        await window.connection.invoke("StartGame", window.lobbyId);
+        console.log("Starting game");
+      } else {
+        alert("Not yet implemented...");
+      }
     }
-    await window.connection.invoke(clicks % 2 === 0 ? "JoinLobby" : "StartGame", "user");
-    clicks++;
-  });
-
-  window.connection = new signalR.HubConnectionBuilder().withUrl("/ws/game").build();
-  window.connection.on("ReceiveMessage" || "EndGame", (msg) => {
-    alert(msg);
   });
 })();
 
