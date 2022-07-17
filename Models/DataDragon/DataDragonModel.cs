@@ -39,7 +39,7 @@ public class DataDragonModel
 
 
     //Teniendo el id de un personaje aleatorio, devolver el nombre de una habilidad o su pasiva aleatoria
-    public async Task<string> getChampionSpell()
+    public async Task<string[]> getChampionSpell()
     {
         try
         {
@@ -50,11 +50,13 @@ public class DataDragonModel
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadFromJsonAsync<ChampionExtended>();
 
-            var posibleValues = new List<string>();
-            posibleValues.Add(responseBody.data[randomChamp.id].passive.name);
+            var posibleValues = new List<string[]>();
+            string[] passive = { responseBody.data[randomChamp.id].passive.name, "passive" };
+            posibleValues.Add(passive);
             foreach (var spell in responseBody.data[randomChamp.id].spells)
             {
-                posibleValues.Add(spell.name);
+                string[] spellArray = { spell.name, spell.id };
+                posibleValues.Add(spellArray);
             }
 
             Random random = new Random();
@@ -65,11 +67,12 @@ public class DataDragonModel
         {
             Console.WriteLine("\nException Caught!");
             Console.WriteLine("Message :{0} ", e.Message);
-            return "";
+            return null;
         }
     }
 
-    public async Task<List<Champion>> getChampions(){
+    public async Task<List<Champion>> getChampions()
+    {
         ChampionResponse champs = await getChamps();
         return champs.data.Values.ToList<Champion>();
     }

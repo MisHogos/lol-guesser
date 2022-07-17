@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using lolguesser.Models;
+using System.Net.WebSockets;
 
 namespace lolguesser.Controllers;
 
@@ -18,7 +19,6 @@ public class GameController : Controller
 
     public async Task<IActionResult> Index()
     {
-        string randomAbility = await _apiModel.getChampionSpell();
         List<Champion> champions = await _apiModel.getChampions();
         ViewData["champions"] = champions;
         return View();
@@ -29,4 +29,5 @@ public class GameController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
 }

@@ -14,16 +14,12 @@
       started = true;
       await window.connection.start();
     }
-    await window.connection.invoke(
-      clicks % 2 === 0 ? "Marco" : "Ping",
-      "user",
-      clicks % 2 === 0 ? "Marco" : "Ping"
-    );
+    await window.connection.invoke(clicks % 2 === 0 ? "JoinLobby" : "StartGame", "user");
     clicks++;
   });
 
   window.connection = new signalR.HubConnectionBuilder().withUrl("/ws/game").build();
-  window.connection.on("ReceiveMessage", (msg) => {
+  window.connection.on("ReceiveMessage" || "EndGame", (msg) => {
     alert(msg);
   });
 })();
