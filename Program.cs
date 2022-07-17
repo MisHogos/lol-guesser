@@ -8,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 
-//var multiplexer = ConnectionMultiplexer.Connect("localhost");
-//builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
+var multiplexer = ConnectionMultiplexer.Connect("localhost");
+builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
 
 
 var app = builder.Build();
@@ -26,6 +26,15 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+
+//WEBSOCKET
+var webSocketOptions = new WebSocketOptions()
+{
+    KeepAliveInterval = TimeSpan.FromMinutes(2)
+};
+app.UseWebSockets(webSocketOptions);
+
 
 app.UseAuthorization();
 
