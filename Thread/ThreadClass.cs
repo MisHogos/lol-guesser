@@ -6,10 +6,13 @@ public class ThreadClass
     private IClientProxy _lobby;
     private Game _game;
 
-    public ThreadClass(IClientProxy lobby, string lobbyId)
+    public ThreadClass(IClientProxy lobby, int rounds, string lobbyId)
     {
         this._lobby = lobby;
-        this._game = new Game(1, lobby, lobbyId);
+
+        this._game = Game.GetGameById(lobbyId);
+        this._game.totalRounds = rounds;
+        this._game._wsLobby = lobby;
     }
 
     public async void InstanceMethod()

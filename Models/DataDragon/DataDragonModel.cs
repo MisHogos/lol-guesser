@@ -51,11 +51,11 @@ public class DataDragonModel
             var responseBody = await response.Content.ReadFromJsonAsync<ChampionExtended>();
 
             var posibleValues = new List<string[]>();
-            string[] passive = { responseBody.data[randomChamp.id].passive.name, "passive", responseBody.data[randomChamp.id].passive.image.GetUrl(version) };
+            string[] passive = { responseBody.data[randomChamp.id].passive.name, "passive", responseBody.data[randomChamp.id].passive.image.GetUrl(version), randomChamp.id };
             posibleValues.Add(passive);
             foreach (var spell in responseBody.data[randomChamp.id].spells)
             {
-                string[] spellArray = { spell.name, spell.id, spell.image.GetUrl(version) };
+                string[] spellArray = { spell.name, spell.id, spell.image.GetUrl(version), randomChamp.id };
                 posibleValues.Add(spellArray);
             }
 

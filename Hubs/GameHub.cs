@@ -10,6 +10,8 @@ namespace lolguesser.Hubs
         public async Task JoinLobby(string group)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, group);
+            var game = Game.CreateOrGetGame(group);
+            game.AddPlayer(Context.ConnectionId);
         }
 
         public async Task CreateLobby(){
@@ -22,21 +24,18 @@ namespace lolguesser.Hubs
         //Start game
         public void StartGame(string group)
         {
-
             var lobby = Clients.Group(group);
 
-            //Cramos un hilo
-            ThreadClass thread = new ThreadClass(lobby, group);
+            ThreadClass thread = new ThreadClass(lobby, 1, group);
 
             Thread InstanceCaller = new Thread(new ThreadStart(thread.InstanceMethod));
             InstanceCaller.Start();
             InstanceCaller.Join();
         }
 
-        public async Task Ping(string user, string message)
-        {
-            await Clients.All.SendAsync("ReceiveMessage", "Pong");
-        }
+        public void SubmitChampion(string championId, string lobbyId){
+            Game.SetPlayerPick(lobbyId, Context.ConnectionId, championId);
+        } 
 
     }
 

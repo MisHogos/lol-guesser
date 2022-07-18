@@ -14,13 +14,20 @@ public sealed class RedisInstance
         });
     }
 
-    public static RedisInstance getInstance()
+    public static RedisInstance GetInstance()
     {
         if (_instance == null)
         {
             _instance = new RedisInstance();
         }
         return _instance;
+    }
 
+    public static IDatabase GetRedisDatabase(){
+        return GetInstance().redis.GetDatabase();
+    }
+
+    public static IServer GetRedisServer(){
+        return GetInstance().redis.GetServer("localhost", 6379);
     }
 }

@@ -34,8 +34,17 @@
       document.getElementById("spell-icon").src = tip;
     }
   });
+
+  window.connection.on("RoundFinished", (results) => {
+    console.log("FINISHED ROUND");
+    console.table(results);
+  });
 })();
 
 function handleNewLobby(lobbyId) {
   window.lobbyId = lobbyId;
+}
+
+function submitChampion(championId) {
+  window.connection.invoke("SubmitChampion", championId, window.lobbyId);
 }

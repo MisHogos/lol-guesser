@@ -1,21 +1,25 @@
 using lolguesser.Models;
 using Microsoft.AspNetCore.SignalR;
 
+[Serializable]
 public class Round
 {
     public int roundNumber { get; set; }
     public List<string> tips { get; set; }
+
+    public string lobbyId { get; set; }
 
     public string[] result { get; set; }
 
     private IClientProxy _wsLobby;
 
     private DataDragonModel _apiModel;
-    public Round(int roundNumber, IClientProxy wsLobby)
+    public Round(int roundNumber, string lobbyId, IClientProxy wsLobby)
     {
         this.roundNumber = roundNumber;
         _apiModel = new DataDragonModel();
         this._wsLobby = wsLobby;
+        this.lobbyId = lobbyId;
     }
 
     public async Task<bool> startRound()
@@ -38,6 +42,8 @@ public class Round
             Thread.Sleep(1000);
             remainingTime--;
 
+            if(IsAlreadyFinished(remainingTime)) break;
+
             if(remainingTime == 30){
                 if(this.result[1] == "Passive")
                     _wsLobby.SendAsync("RoundTip", "Letter", this.result[1]);
@@ -52,6 +58,26 @@ public class Round
             }
         }
 
+        await _wsLobby.SendAsync("RoundFinished", GetResults(this.result[3]));
+
         return true;
+    }
+
+    public string[][] GetResults(string selectedSpell){
+        return GetCurrentGame()
+                .GetPicksWithPlayer()
+                .Select(pick => {
+                    return new string[]{ pick[0], pick[1], pick[1] == selectedSpell ? "success" : "error" };
+                })
+                .ToArray();
+    }
+
+    public Game GetCurrentGame(){
+        return Game.GetGameById(lobbyId);
+    }
+
+    public bool IsAlreadyFinished(int remainingSeconds){
+        if(GetCurrentGame().GetPicks().Count == GetCurrentGame().GetPlayers().Count) return true;
+        return remainingSeconds == 0;
     }
 }

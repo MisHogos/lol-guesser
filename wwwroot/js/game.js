@@ -3,6 +3,9 @@
   document.getElementById("champ-search").addEventListener("input", (evt) => {
     updateChampionList(evt.target.value);
   });
+  document.getElementById("submit-button").addEventListener("click", () => {
+    window.submitChampion(window.selectedChampion);
+  });
 })();
 
 function updateChampionList(search) {
@@ -40,4 +43,5 @@ function setSelectedChampion(championId) {
   window.selectedChampion = championId;
   const currentSelectedChampion = document.querySelector(`*[data-id='${championId}']`);
   currentSelectedChampion.classList.add("selected-champ");
+  document.getElementById("submit-button").disabled = false;
 }

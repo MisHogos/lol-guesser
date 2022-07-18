@@ -1,34 +1,36 @@
 using lolguesser.Models;
 using Microsoft.AspNetCore.SignalR;
+using System.Text.Json;
 
+[Serializable]
 public class Game
 {
-    private string lobbyId { get; set; }
-    private int actualRound { get; set; }
+    public string lobbyId { get; set; }
+    public int actualRound { get; set; }
 
-    private int totalRounds { get; set; }
+    public int totalRounds { get; set; }
 
     public List<Round> rounds { get; set; }
 
-    private Player[] players { get; set; }
+    public List<Player> players { get; set; }
 
-    private Boolean isFinished { get; set; }
+    public Boolean isFinished { get; set; }
 
-    private TimeSpan createdAt { get; set; }
+    public TimeSpan createdAt { get; set; }
 
-    private TimeSpan updatedAt { get; set; }
+    public TimeSpan updatedAt { get; set; }
 
-    private IClientProxy _wsLobby { get; set; }
+    public IClientProxy _wsLobby { get; set; }
 
-    public Game(int totalRounds, IClientProxy wsLobby, string lobbyId)
+    public Game(string lobbyId)
     {
         this.lobbyId = lobbyId;
-        this.actualRound = 1;
         this.totalRounds = totalRounds;
         this.createdAt = DateTime.Now.TimeOfDay;
+        this.actualRound = 1;
         this.isFinished = false;
         this.rounds = new List<Round>();
-        this._wsLobby = wsLobby;
+        this.players = new List<Player>();
     }
 
     public async Task<bool> startGame()
@@ -43,17 +45,73 @@ public class Game
         return true;
     }
 
+    public void SaveGame(){
+        var newGame = JsonSerializer.Serialize(this);
+        RedisInstance.GetRedisDatabase().StringSet($"game:${this.lobbyId}", newGame);
+    }
+
+    public void AddPlayer(string playerId){
+        this.players.Add(new Player(playerId));
+        this.SaveGame();
+    }
+
+    public void RemovePlayer(string playerId){
+        this.players = this.players.Where(player => player.playerId != playerId).ToList();
+        this.SaveGame();
+    }
+
+    public List<Player> GetPlayers(){
+        return players;
+    }
 
     public async Task<bool> createRound()
     {
         if (this.actualRound <= this.totalRounds)
         {
-            this.rounds.Add(new Round(this.actualRound, this._wsLobby));
+            this.rounds.Add(new Round(this.actualRound, this.lobbyId, this._wsLobby));
             await this.rounds.ElementAt(this.actualRound - 1).startRound();
             this.actualRound++;
             return true;
         }
         return false;
+    }
+
+    public static void SetPlayerPick(string lobbyId, string playerId, string championId){
+        RedisInstance.GetRedisDatabase().StringSet($"game:{lobbyId}:${playerId}", championId);
+    }
+
+    public List<string> GetPicks(){
+        return RedisInstance
+                .GetRedisServer()
+                .Keys(RedisInstance.GetRedisDatabase().Database, $"game:{lobbyId}:*")
+                .Select(key => (string)RedisInstance.GetRedisDatabase().StringGet(key))
+                .Where(val => val != null)
+                .ToList<string>();
+    }
+
+    public List<string[]> GetPicksWithPlayer(){
+        return RedisInstance
+                .GetRedisServer()
+                .Keys(RedisInstance.GetRedisDatabase().Database, $"game:{lobbyId}:*")
+                .Select(key => { 
+                    return new string[]{ key.ToString().Split(":").Last(), (string)RedisInstance.GetRedisDatabase().StringGet(key) };
+                })
+                .ToList<string[]>();
+    }
+
+    public static Game? GetGameById(string lobbyId){
+        var serializedGame = RedisInstance.GetRedisDatabase().StringGet($"game:${lobbyId}");
+        if(serializedGame.IsNullOrEmpty) return null;
+        return JsonSerializer.Deserialize<Game>(serializedGame);
+    }
+
+    public static Game CreateOrGetGame(string lobbyId){
+        var serializedGame = GetGameById(lobbyId);
+        if(serializedGame != null) return serializedGame;
+
+        var game = new Game(lobbyId);
+        game.SaveGame();
+        return game;
     }
 
 }
